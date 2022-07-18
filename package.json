@@ -1,6 +1,7 @@
 {
   "name": "journal-app",
   "private": true,
+  "homepage": "https://minciencias-login.herokuapp.com/dist",
   "version": "0.0.0",
   "engines": {
     "node": "16.15.1"
