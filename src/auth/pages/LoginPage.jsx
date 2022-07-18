@@ -49,7 +49,7 @@ export const LoginPage = () => {
   console.log(status);
   return (
     <>
-    <link href="/public/app-assets/css/pages/authentication.css" rel="stylesheet" type="text/css" />
+    <link href="/publicassets/app-assets/css/pages/authentication.css" rel="stylesheet" type="text/css" />
     <div className="card mb-0">
         <div className="card-body">
             <a href="index.html" className="brand-logo">
