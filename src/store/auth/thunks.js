@@ -11,6 +11,7 @@ export const loginBM=({loginEmail,password})=>{
               const options = {
                 method: 'POST',
                 //headers: { 'content-type': 'application/x-www-form-urlencoded' },
+                //headers: { 'content-type': 'application/x-www-form-urlencoded' },
                 data: new URLSearchParams({ email:loginEmail, password:password }),
                 url:'http://192.168.5.108/enlazaa-backend/public/api/v1/loginuser'
               };
