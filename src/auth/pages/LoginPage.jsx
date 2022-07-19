@@ -5,6 +5,7 @@ import InputPasswordToggle from '../../@core/components/input-password-toggle';
 import { loginBM } from '../../store/auth';
 import { useDispatch, useSelector } from "react-redux";
 import { useMemo } from 'react';
+import '../style.css';
 const defaultValues = {
   password: 'mauro',
   loginEmail: 'prueba1@correo.com'
@@ -49,7 +50,7 @@ export const LoginPage = () => {
   console.log(status);
   return (
     <>
-    <link href="/publicassets/app-assets/css/pages/authentication.css" rel="stylesheet" type="text/css" />
+    
     <div className="card mb-0">
         <div className="card-body">
             <a href="index.html" className="brand-logo">
@@ -112,7 +113,9 @@ export const LoginPage = () => {
                 Ingresar
               </Button>
             </Form>
-
+            <Link to='/auth/login'>
+                    <small>login</small>
+                  </Link>
             <p className="text-center mt-2">
                 <span>¿No tienes cuenta?</span>
                 <a href="auth-register-basic.html">
