@@ -116,8 +116,8 @@
     .auth-wrapper .auth-bg {
       padding-top: 3rem;
       margin: auto 0; }
-    .auth-wrapper .auth-inner {
-      background-color: #fff; }
+    /* .auth-wrapper .auth-inner {
+      background-color: #fff; } */
     .auth-wrapper.auth-cover .auth-inner {
       padding-bottom: 1rem;
       display: flex;

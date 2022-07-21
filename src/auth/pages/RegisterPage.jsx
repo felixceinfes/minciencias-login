@@ -1,55 +1,91 @@
-import { Button, Grid, Link, TextField, Typography } from "@mui/material";
-import { Google } from "@mui/icons-material";
-import { Link as RouterLink } from "react-router-dom";
-import { AuthLayout } from "../layout/AuthLayout";
+// ** React Imports
+import { Link } from 'react-router-dom'
+
+// ** Icons Imports
+import { Facebook, Twitter, Mail, GitHub } from 'react-feather'
+
+// ** Custom Components
+
+import InputPasswordToggle from '../../@core/components/input-password-toggle';
+
+// ** Reactstrap Imports
+import { Card, CardBody, CardTitle, CardText, Form, Label, Input, Button } from 'reactstrap'
+
+// ** Styles
+
+console.log(process.env.REACT_APP_URL_APIS);
+
 export const RegisterPage = () => {
   return (
-      <AuthLayout title="Register page">
-        <form>
-          <Grid container>
-              <Grid item xs={ 12 } sx={{ mb:2,mt:2 }}>
-                <TextField 
-                    label="Nombre completo" 
-                    type="text" 
-                    placeholder="Tu nombre" 
-                    fullWidth
-                />
-              </Grid>
-              <Grid item xs={ 12 } sx={{ mb:2  }}>
-                <TextField 
-                    label="Correo" 
-                    type="email" 
-                    placeholder="example@correo.com" 
-                    fullWidth
-                />
-              </Grid>  
-              <Grid item xs={ 12 } sx={{ mb:2 }}>
-                <TextField 
-                    label="Contraseña" 
-                    type="password" 
-                    fullWidth
-                />
-              </Grid>
-              <Grid item xs={ 12 } sx={{ mb:2 }}>
-                <TextField 
-                    label="Confirmar contraseña" 
-                    type="password" 
-                    fullWidth
-                />
-              </Grid>  
-              <Grid container spacing={ 2 } sx={{ mb:2 }}>
-                <Grid item xs={12} sm={ 12 }>
-                  <Button variant="contained" fullWidth>
-                    Create account
-                  </Button>
-                </Grid>                
-              </Grid>
-              <Grid container direction="row" justifyContent="end">
-                <Typography sx={{ mr:1 }}>Do you already have an accound?</Typography>
-                  <Link component={ RouterLink } color="inherit" to="/auth/login" > Login </Link>                    
-              </Grid>
-          </Grid>
-        </form>
-      </AuthLayout>
+    <div className='auth-wrapper auth-basic px-2'>
+      <div className='auth-inner my-2'>
+        <Card className='mb-0'>
+          <CardBody>
+            <Link className='brand-logo' to='/' onClick={e => e.preventDefault()}>              
+              <h2 className='brand-text text-primary ms-1'>Enlazaa</h2>
+            </Link>
+            <CardTitle tag='h4' className='mb-1'>
+              Nueva experiencia en evaluación 🚀
+            </CardTitle>
+            <CardText className='mb-2'>!Registra los siguientes datos!</CardText>
+            <Form className='auth-register-form mt-2' onSubmit={e => e.preventDefault()}>
+              <div className='mb-1'>
+                <Label className='form-label' for='register-username'>
+                  Nombre de usuario
+                </Label>
+                <Input type='text' id='register-username' placeholder='johndoe' autoFocus />
+              </div>
+              <div className='mb-1'>
+                <Label className='form-label' for='register-email'>
+                  Correo
+                </Label>
+                <Input type='email' id='register-email' placeholder='john@example.com' />
+              </div>
+              <div className='mb-1'>
+                <Label className='form-label' for='register-password'>
+                  Constraseña
+                </Label>
+                <InputPasswordToggle className='input-group-merge' id='register-password' />
+              </div>
+              <div className='form-check mb-1'>
+                <Input type='checkbox' id='terms' />
+                <Label className='form-check-label' for='terms'>
+                  I agree to
+                  <a className='ms-25' href='/' onClick={e => e.preventDefault()}>
+                    privacy policy & terms
+                  </a>
+                </Label>
+              </div>
+              <Button color='primary' block>
+                Sign up
+              </Button>
+            </Form>
+            <p className='text-center mt-2'>
+              <span className='me-25'>Already have an account?</span>
+              <Link to='/pages/login-basic'>
+                <span>Sign in instead</span>
+              </Link>
+            </p>
+            <div className='divider my-2'>
+              <div className='divider-text'>or</div>
+            </div>
+            <div className='auth-footer-btn d-flex justify-content-center'>
+              <Button color='facebook'>
+                <Facebook size={14} />
+              </Button>
+              <Button color='twitter'>
+                <Twitter size={14} />
+              </Button>
+              <Button color='google'>
+                <Mail size={14} />
+              </Button>
+              <Button className='me-0' color='github'>
+                <GitHub size={14} />
+              </Button>
+            </div>
+          </CardBody>
+        </Card>
+      </div>
+    </div>
   )
 }

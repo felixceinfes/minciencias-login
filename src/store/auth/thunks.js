@@ -4,6 +4,7 @@ import { checkauthentication, login, logout, errorinlogin } from './';
 
 export const checkLogedIn=()=>{
     return async(dispatch)=>{     
+        console.log(localStorage.getItem('session_token'));
         if(localStorage.getItem('session_token')===null){
             dispatch(logout(""));
             console.log("sin localstorage");
