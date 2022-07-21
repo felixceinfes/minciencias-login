@@ -10,12 +10,59 @@ import InputPasswordToggle from '../../@core/components/input-password-toggle';
 
 // ** Reactstrap Imports
 import { Card, CardBody, CardTitle, CardText, Form, Label, Input, Button } from 'reactstrap'
-
-// ** Styles
-
-console.log(process.env.REACT_APP_URL_APIS);
+import { useEffect } from 'react';
+import { getDocumentTypes } from '../../helpers/getDocumentType';
+import { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 
 export const RegisterPage = () => {
+
+  const defaultValues = {
+    documentType: '',
+    docNumber:'',
+    firstNames:'',
+    lastNames:'',
+    email:''
+  }
+
+  const {
+    register,
+    control,
+    setError,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({ defaultValues });
+
+  const [documentType,setDocumentType] = useState([]);
+  const getDocTypes = async() => {
+    const documentTypes = await getDocumentTypes();
+    setDocumentType(documentTypes);
+  }
+  useEffect(() => {
+    getDocTypes();
+  }, []);
+
+/*   const onSubmit = data => console.log(data);
+  console.log(errors.documentNumber); 
+  
+  {...register("documentNumber", {required: true, pattern:/^[0-9]+$/})}        
+  */
+  const onSubmit = data => {
+    if (Object.values(data).every(field => field.length > 0)) {
+      dispatch(loginBM(data));
+    } else {
+      for (const key in data) {
+        if (data[key].length === 0) {
+          
+          setError(key, {
+            type: 'manual'
+          })
+        }
+      }
+    }
+  }
+
+
   return (
     <div className='auth-wrapper auth-basic px-2'>
       <div className='auth-inner my-2'>
@@ -28,41 +75,114 @@ export const RegisterPage = () => {
               Nueva experiencia en evaluación 🚀
             </CardTitle>
             <CardText className='mb-2'>!Registra los siguientes datos!</CardText>
-            <Form className='auth-register-form mt-2' onSubmit={e => e.preventDefault()}>
+            <Form className='auth-register-form mt-2' onSubmit={handleSubmit(onSubmit)}>
               <div className='mb-1'>
-                <Label className='form-label' for='register-username'>
-                  Nombre de usuario
+                <Label className='form-label' for='select-basic'>
+                  Tipo de documento
                 </Label>
-                <Input type='text' id='register-username' placeholder='johndoe' autoFocus />
+                <Controller
+                  id='documentType'
+                  name='documentType'
+                  control={control}
+                  render={({ field }) => (
+                    <Input 
+                      type='select' 
+                      {...field}
+                      invalid={errors.documentType && true}
+                    >
+                      <option key="0" value="" >Selecciona ...</option>)
+                        {
+                          documentType.map( (document) => <option key={document.id} value={document.id}>{document.name}</option>)
+                        }
+                    </Input>
+                  )}
+                />
+                {errors.documentType && 'Debes seleccionar un tipo de documento'}
               </div>
               <div className='mb-1'>
-                <Label className='form-label' for='register-email'>
+                <Label className='form-label' for='login-email'>
+                  Número de documento
+                </Label>
+                <Controller
+                  id='docNumber'
+                  name='docNumber'
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      autoFocus
+                      type='text'                    
+                      invalid={errors.docNumber && true}
+                      {...field}              
+                    />
+                  )}
+                />
+                {errors.docNumber && 'Debes escribir un nombre'}
+              </div>
+              <div className='mb-1'>
+                <Label className='form-label' for='login-email'>
+                  Nombres
+                </Label>
+                <Controller
+                  id='firstNames'
+                  name='firstNames'
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      autoFocus
+                      type='text'                    
+                      invalid={errors.firstNames && true}
+                      {...field}
+                    />
+                  )}
+                />
+                {errors.firstNames && 'Debes escribir un nombre'}
+              </div>
+              <div className='mb-1'>
+                <Label className='form-label' for='login-email'>
+                  Apellidos
+                </Label>
+                <Controller
+                  id='lastNames'
+                  name='lastNames'
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      autoFocus
+                      type='text'
+                      invalid={errors.lastNames && true}
+                      {...field}
+                    />
+                  )}
+                />
+                {errors.lastNames && 'Debes escribir tus apellidos'}
+              </div>
+              <div className='mb-1'>
+                <Label className='form-label' for='login-email'>
                   Correo
                 </Label>
-                <Input type='email' id='register-email' placeholder='john@example.com' />
-              </div>
-              <div className='mb-1'>
-                <Label className='form-label' for='register-password'>
-                  Constraseña
-                </Label>
-                <InputPasswordToggle className='input-group-merge' id='register-password' />
-              </div>
-              <div className='form-check mb-1'>
-                <Input type='checkbox' id='terms' />
-                <Label className='form-check-label' for='terms'>
-                  I agree to
-                  <a className='ms-25' href='/' onClick={e => e.preventDefault()}>
-                    privacy policy & terms
-                  </a>
-                </Label>
+                <Controller
+                  id='email'
+                  name='email'
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      autoFocus
+                      type='email'
+                      placeholder='ejemplo@correo.com'
+                      invalid={errors.loginEmail && true}
+                      {...field}
+                    />
+                  )}
+                />
+                {errors.email && 'Debes escribir un correo válido'}
               </div>
               <Button color='primary' block>
                 Sign up
               </Button>
             </Form>
             <p className='text-center mt-2'>
-              <span className='me-25'>Already have an account?</span>
-              <Link to='/pages/login-basic'>
+              <span className='me-25'>¿Ya tienes cuenta?</span>
+              <Link to='/login'>
                 <span>Sign in instead</span>
               </Link>
             </p>

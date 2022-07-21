@@ -3,15 +3,13 @@ import { checkauthentication, login, logout, errorinlogin } from './';
 
 
 export const checkLogedIn=()=>{
-    return async(dispatch)=>{     
-        console.log(localStorage.getItem('session_token'));
+    return async(dispatch)=>{ 
         if(localStorage.getItem('session_token')===null){
             dispatch(logout(""));
-            console.log("sin localstorage");
             return false;
         } 
         try {
-            const res = await axios.get('https://3.21.167.99/enlazaa-backend/public/api/v1/checktoken', {
+            const res = await axios.get(`${import.meta.env.VITE_URL_APIS}checktoken`, {
                 params: { token: "sdfsf" },
                 headers: {
                 'Authorization': `Bearer ${localStorage.getItem('session_token')}`
@@ -48,7 +46,7 @@ export const loginBM=({loginEmail,password})=>{
                 //headers: { 'content-type': 'application/x-www-form-urlencoded' },
                 data: new URLSearchParams({ email:loginEmail, password:password }),
                 //url:'https://192.168.5.108/enlazaa-backend/public/api/v1/loginuser'
-                url:'https://3.21.167.99/enlazaa-backend/public/api/v1/loginuser'
+                url:`${import.meta.env.VITE_URL_APIS}loginuser`
               };
               //const { status, msg, user, token } =  await axios(options).data;
               const response =  await axios(options);

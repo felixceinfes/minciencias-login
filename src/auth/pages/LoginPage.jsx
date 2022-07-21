@@ -14,14 +14,13 @@ const defaultValues = {
 
 export const LoginPage = () => {
 
-  const navigate=useNavigate();
+  
 
   const { status, error:loginErrorMsg } = useSelector(state=>state.auth);
 
   const dispatch = useDispatch()
 
   const {
-    register,
     control,
     setError,
     handleSubmit,
@@ -35,19 +34,15 @@ export const LoginPage = () => {
       dispatch(loginBM(data));
     } else {
       for (const key in data) {
-        console.log(data);
         if (data[key].length === 0) {
-          
           setError(key, {
             type: 'manual'
           })
-          console.log(key);
         }
       }
     }
   }
 
-  console.log(status);
   return (
     <>
     
