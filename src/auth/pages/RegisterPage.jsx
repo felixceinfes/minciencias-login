@@ -4,16 +4,15 @@ import { Link } from 'react-router-dom'
 // ** Icons Imports
 import { Facebook, Twitter, Mail, GitHub } from 'react-feather'
 
-// ** Custom Components
-
-import InputPasswordToggle from '../../@core/components/input-password-toggle';
-
 // ** Reactstrap Imports
 import { Card, CardBody, CardTitle, CardText, Form, Label, Input, Button } from 'reactstrap'
 import { useEffect } from 'react';
 import { getDocumentTypes } from '../../helpers/getDocumentType';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerEnlazaa } from '../../store/register';
+
 
 export const RegisterPage = () => {
 
@@ -34,6 +33,13 @@ export const RegisterPage = () => {
   } = useForm({ defaultValues });
 
   const [documentType,setDocumentType] = useState([]);
+
+  const dispatch = useDispatch();
+
+  const { status } = useSelector(state=>state.register);
+
+  const validRegistration = (status==='checking')?true:false;
+
   const getDocTypes = async() => {
     const documentTypes = await getDocumentTypes();
     setDocumentType(documentTypes);
@@ -49,7 +55,7 @@ export const RegisterPage = () => {
   */
   const onSubmit = data => {
     if (Object.values(data).every(field => field.length > 0)) {
-      dispatch(loginBM(data));
+      dispatch(registerEnlazaa(data));
     } else {
       for (const key in data) {
         if (data[key].length === 0) {
@@ -176,7 +182,7 @@ export const RegisterPage = () => {
                 />
                 {errors.email && 'Debes escribir un correo válido'}
               </div>
-              <Button color='primary' block>
+              <Button color='primary' block disabled={validRegistration}>
                 Sign up
               </Button>
             </Form>
