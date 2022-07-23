@@ -1,5 +1,3 @@
-import React from 'react'
-
 export const getDocumentTypes = async () => {
     try{
         const url=`${import.meta.env.VITE_URL_APIS}documenttype`;

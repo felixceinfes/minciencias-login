@@ -14,7 +14,6 @@ export const checkLogedIn=()=>{
                 headers: {
                 'Authorization': `Bearer ${localStorage.getItem('session_token')}`
                 } } );
-            console.log(res.data.status);
             const { user,msg }=res.data
             if(res.status===200 && res.data.status==="success"){
                 const token = localStorage.getItem('session_token');

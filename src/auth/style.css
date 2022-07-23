@@ -1,3 +1,9 @@
+.aut-error{
+  color:red;
+  font-size: 12px;
+
+}
+
 .auth-wrapper {
     display: flex;
     flex-basis: 100%;

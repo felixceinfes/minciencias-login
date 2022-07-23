@@ -7,7 +7,7 @@ import { Facebook, Twitter, Mail, GitHub } from 'react-feather'
 // ** Reactstrap Imports
 import { Card, CardBody, CardTitle, CardText, Form, Label, Input, Button } from 'reactstrap'
 import { useEffect } from 'react';
-import { getDocumentTypes } from '../../helpers/getDocumentType';
+import { getDocumentTypes } from '../../api/getDocumentType';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
