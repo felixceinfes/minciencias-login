@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom'
 import { Card, CardBody, CardTitle, CardText, Button } from 'reactstrap'
 
 // ** Styles
-import '../@core/scss/react/pages/page-authentication.scss'
 
 export const BlankPage = ({title, body}) => {
   return (

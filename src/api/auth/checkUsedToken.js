@@ -11,9 +11,9 @@ export const checkUsedToken = async (dataToken) => {
                         'content-type': 'application/x-www-form-urlencoded' 
                       },
                 });
-                const {status, msg, data} = await result.json();
+                const { status, msg, data}  = await result.json();
                 let usedToken=false;
-                if(status==="success" && data.is_active===true){
+                if(status==="success" && data[0].is_active===true){
                     usedToken = true;
                 }
                 return usedToken;

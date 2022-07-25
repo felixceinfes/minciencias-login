@@ -19,7 +19,7 @@ export const ActivateAccount = () => {
     resultApi();
   }, [])
   
-
+ console.log(statusToken);
 
   return (
     (statusToken===true)?
