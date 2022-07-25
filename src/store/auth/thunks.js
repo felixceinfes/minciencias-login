@@ -45,7 +45,7 @@ export const loginBM=({loginEmail,password})=>{
                 //headers: { 'content-type': 'application/x-www-form-urlencoded' },
                 data: new URLSearchParams({ email:loginEmail, password:password }),
                 //url:'https://192.168.5.108/enlazaa-backend/public/api/v1/loginuser'
-                url:`${import.meta.env.VITE_URL_APIS}loginuser`
+                url:`${import.meta.env.VITE_URL_APIS}auth/loginuser`
               };
               //const { status, msg, user, token } =  await axios(options).data;
               const response =  await axios(options);

@@ -3,18 +3,18 @@ import { useForm, Controller } from 'react-hook-form';
 import InputPasswordToggle from '../../../@core/components/input-password-toggle';
 import validator from 'validator';
 import { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 import { accountActivation } from '../../../api/auth';
-
 export const FormActivateAccount = ({tokenAccount}) => {
 
     const defaultValues = {
         password: '',
         confirmpassword:'',
         token:tokenAccount.token,
-        uuid:tokenAccount.user_uuid
+        user_uuid:tokenAccount.user_uuid
     }
     const [sendingForm, setSendingForm] = useState(false);
-
+    const [msgResult, setmsgResult] = useState()
     const {
         register,
         control,
@@ -23,32 +23,26 @@ export const FormActivateAccount = ({tokenAccount}) => {
         formState: { errors }
     } = useForm({defaultValues});
 
+    const notify = (msg) => toast(msg);
+
+    const callAccountActivation=async (data)=>{
+        const resultActivation = await accountActivation(data);
+        const { status, msg } = await resultActivation;
+        if(status!=="success"){
+            notify("La activación no ha sido satisfactoria"); 
+            return false;
+        }
+        notify("Activación exitosa"); 
+    }
+
     const onSubmit = data => {
-        setSendingForm(true);
-        const resultActivation = accountActivation(data);
-        if(resultActivation===true){
-            
-        }
-        else{
-
-
-        }
-        console.log(data);
-        /* if (Object.values(data).every(field => field.length > 0)) {
-          dispatch(loginBM(data));
-        } else {
-          for (const key in data) {
-            if (data[key].length === 0) {
-              setError(key, {
-                type: 'manual'
-              })
-            }
-          }
-        } */
+        //setSendingForm(true);
+        callAccountActivation(data);    
       }
     
     return (
         <div>
+            <ToastContainer />
             <div className="card mb-0">
                 <div className="card-body">
                     <a href="index.html" className="brand-logo">
@@ -120,7 +114,7 @@ export const FormActivateAccount = ({tokenAccount}) => {
                         color='primary' 
                         block 
                     >
-                        Activar cuenta
+                        Asignar contraseña
                     </Button>
                     </Form>
                 

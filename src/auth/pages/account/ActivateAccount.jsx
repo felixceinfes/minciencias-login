@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { checkUsedToken } from '../../../api/auth';
 import { FormActivateAccount } from './FormActivateAccount';
 import { BlankPage } from '../../../pages/blankPage';
-
+import 'react-toastify/dist/ReactToastify.css';
 
 export const ActivateAccount = () => {
 
