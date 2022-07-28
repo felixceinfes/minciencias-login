@@ -1,12 +1,15 @@
-import { Form, Input, Label, Button } from 'reactstrap';
+import { Form, Input, Label, Button, Modal, ModalHeader, ModalBody, ModalFooter, Alert } from 'reactstrap';
 import { useForm, Controller } from 'react-hook-form';
-import { Link,useNavigate } from 'react-router-dom';
 import InputPasswordToggle from '../../@core/components/input-password-toggle';
 import { loginBM } from '../../store/auth';
 import { useDispatch, useSelector } from "react-redux";
-import { useMemo } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import '../style.css';
-const defaultValues = {
+import { Facebook, Twitter, Mail, GitHub } from 'react-feather'
+import { ModalRecoveryPassword } from './account/ModalRecoveryPassword';
+
+
+const defaultValuesRp = {
   password: 'mauro',
   loginEmail: 'prueba1@correo.com'
 }
@@ -14,28 +17,35 @@ const defaultValues = {
 
 export const LoginPage = () => {
 
-  
+ 
+  const [disabledAnimation, setDisabledAnimation] = useState(false);
+
+  const toggle = () => setDisabledAnimation(!disabledAnimation);
 
   const { status, error:loginErrorMsg } = useSelector(state=>state.auth);
 
   const dispatch = useDispatch()
 
+  const nodeRef = useRef(null);
+
   const {
-    control,
-    setError,
-    handleSubmit,
-    formState: { errors }
-  } = useForm({ defaultValues });
+    control:controlii,
+    setError:setErrorii,
+    handleSubmit:handleSubmitii,
+    formState: { errors:errorsii }
+  } = useForm({ defaultValues:defaultValuesRp });
+
+
 
   const loginError = useMemo( ()=>{ return status==='error-in-authentication'},[status] );
 
-  const onSubmit = data => {
+  const onSubmitLogin = data => {
     if (Object.values(data).every(field => field.length > 0)) {
       dispatch(loginBM(data));
     } else {
       for (const key in data) {
         if (data[key].length === 0) {
-          setError(key, {
+          setErrorii(key, {
             type: 'manual'
           })
         }
@@ -43,20 +53,21 @@ export const LoginPage = () => {
     }
   }
 
+  
+
   return (
-    <>
+  <>
     
     <div className="card mb-0">
         <div className="card-body">
             <a href="index.html" className="brand-logo">
-               
                 <h2 className="brand-text text-primary ms-1">Enlazaa</h2>
             </a>
 
             <h4 className="card-title mb-1">¡Bienvenido a Enlazaa! 👋</h4>
             <p className="card-text mb-2">Por favor ingresa digitando correo y contraseña</p>
 
-            <Form className='auth-login-form mt-2' onSubmit={handleSubmit(onSubmit)}>
+            <Form className='auth-login-form mt-2' onSubmit={handleSubmitii(onSubmitLogin)}>
               <div className='mb-1'>
                 <Label className='form-label' for='login-email'>
                   Correo
@@ -64,18 +75,18 @@ export const LoginPage = () => {
                 <Controller
                   id='loginEmail'
                   name='loginEmail'
-                  control={control}
+                  control={controlii}
                   render={({ field }) => (
                     <Input
                       autoFocus
                       type='email'
                       placeholder='john@example.com'
-                      invalid={errors.loginEmail && true}
+                      invalid={errorsii.loginEmail && true}
                       {...field}
                     />
                   )}
                 />
-                {errors.loginEmail && 'Debes escribir un correo válido'}
+                {errorsii.loginEmail && 'Debes escribir un correo válido'}
 
               </div>
               <div className='mb-1'>
@@ -83,19 +94,25 @@ export const LoginPage = () => {
                   <Label className='form-label' for='login-password'>
                     Contraseña
                   </Label>
-                  <Link to='/forgot-password'>
+                  <Button 
+                    color='link' 
+                    onClick={toggle} 
+                    style={{paddingTop: '0px',paddingBottom: '0px',paddingRight: '0px'}}
+                    
+                  >
                     <small>¿Olvidaste la contraseña?</small>
-                  </Link>
+                  </Button>         
+                           
                 </div>
                 <Controller
                   id='password'
                   name='password'
-                  control={control}
+                  control={controlii}
                   render={({ field }) => (
-                    <InputPasswordToggle className='input-group-merge' invalid={errors.password && true} {...field} />
+                    <InputPasswordToggle className='input-group-merge' invalid={errorsii.password && true} {...field} />
                   )}
                 />
-                {errors.password && 'Password no válido'}
+                {errorsii.password && 'Password no válido'}
                 {loginError && loginErrorMsg}
               </div>
               
@@ -108,9 +125,7 @@ export const LoginPage = () => {
                 Ingresar
               </Button>
             </Form>
-            <Link to='/auth/login'>
-                    <small>login</small>
-                  </Link>
+            <ModalRecoveryPassword   disabledAnimation={disabledAnimation} setDisabledAnimation={setDisabledAnimation}/>
             <p className="text-center mt-2">
                 <span>¿No tienes cuenta?</span>
                 <a href="auth-register-basic.html">
@@ -122,21 +137,22 @@ export const LoginPage = () => {
                 <div className="divider-text">Redes sociales</div>
             </div>
 
-            <div className="auth-footer-btn d-flex justify-content-center">
-                <a href="#" className="btn btn-facebook">
-                    <i data-feather="facebook"></i>
-                </a>
-                <a href="#" className="btn btn-twitter white">
-                    <i data-feather="twitter"></i>
-                </a>
-                <a href="#" className="btn btn-google">
-                    <i data-feather="mail"></i>
-                </a>
-                <a href="#" className="btn btn-github">
-                    <i data-feather="github"></i>
-                </a>
+            <div className='auth-footer-btn d-flex justify-content-center'>
+              <Button color='facebook'>
+                <Facebook size={14} />
+              </Button>
+              <Button color='twitter'>
+                <Twitter size={14} />
+              </Button>
+              <Button color='google'>
+                <Mail size={14} />
+              </Button>
+              <Button className='me-0' color='github'>
+                <GitHub size={14} />
+              </Button>
             </div>
         </div>
+       
     </div>
     </>
   )

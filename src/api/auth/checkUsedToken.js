@@ -17,8 +17,11 @@ export const checkUsedToken = async (dataToken) => {
                     usedToken = true;
                 }
                 return usedToken;
-            }catch(err){
-                console.error(err);
+            }catch(error){
+                let msgError = "Error de aplicación"; 
+                if(error.request.status===401){
+                    msgError = JSON.parse(error.request.response).msg;
+                }
             }
         
     }
