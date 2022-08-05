@@ -18,7 +18,7 @@ export const JournalApp = () => {
   
 
   return (
-    <BrowserRouter basename='minciencias-login'>
+    <BrowserRouter basename='minciencias-login/'>
       <AppTheme>
           <AppRouter/>
       </AppTheme>

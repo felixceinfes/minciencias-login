@@ -60,7 +60,7 @@ export const LoginPage = () => {
       dispatch(loginBM(data));
       console.log(user);
       if(uuid!==null){
-        window.location.replace(`http://localhost:3001/?useruuid=f7e0b9d2-67c1-496e-8900-f5b378606fc4&accestoken=8352b15c-d366-481d-8720-310ba0069c32&schooluuid=8352b15c-d366-481d-8720-310ba0069c32`)
+        window.location.replace(`http://3.21.167.99/minciencias-admin/?useruuid=f7e0b9d2-67c1-496e-8900-f5b378606fc4&accestoken=8352b15c-d366-481d-8720-310ba0069c32&schooluuid=8352b15c-d366-481d-8720-310ba0069c32`)
       }
     } else {
       for (const key in data) {
