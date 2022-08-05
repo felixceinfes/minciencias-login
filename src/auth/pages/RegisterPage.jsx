@@ -5,30 +5,49 @@ import { Link } from 'react-router-dom'
 import { Facebook, Twitter, Mail, GitHub } from 'react-feather'
 
 // ** Reactstrap Imports
-import { Card, CardBody, CardTitle, CardText, Form, Label, Input, Button } from 'reactstrap'
+import { Card, CardBody, CardTitle, CardText, Form, Label, Input, Button, FormFeedback } from 'reactstrap'
 import { useEffect } from 'react';
 import { getDocumentTypes } from '../../api/getDocumentType';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerEnlazaa } from '../../store/register';
-
+import Select from 'react-select';
 
 export const RegisterPage = () => {
 
   const defaultValues = {
     documentType: '',
+    documentType1:'',
+    documentType2:'',
     docNumber:'',
     firstNames:'',
     lastNames:'',
     email:''
   }
-
+  const options = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' }
+  ]
+  const options1 = [
+    { value: 'chocolate1', label: 'Chocolate1' },
+    { value: 'strawberry1', label: 'Strawberry1' },
+    { value: 'vanilla1', label: 'Vanilla1' }
+  ]
+  const options2 = [
+    { value: 'chocolate2', label: 'Chocolate2' },
+    { value: 'strawberry2', label: 'Strawberry2' },
+    { value: 'vanilla2', label: 'Vanilla2' }
+  ]
+  
   const {
+    reset,
     register,
     control,
     setError,
     handleSubmit,
+    setValue,
     formState: { errors }
   } = useForm({ defaultValues });
 
@@ -41,13 +60,33 @@ export const RegisterPage = () => {
   const validRegistration = (status==='checking')?true:false;
 
   const getDocTypes = async() => {
-    const documentTypes = await getDocumentTypes();
-    setDocumentType(documentTypes);
+    //const documentTypes = await getDocumentTypes();
+    //setDocumentType(documentTypes);
   }
   useEffect(() => {
     getDocTypes();
+    //defaultValues.documentType={ value: 'vanilla', label: 'Vanilla' };
+    reset({...defaultValues});
+    console.log(defaultValues);
   }, []);
-
+ const onHandleChange=selectedOption=>{
+  console.log(selectedOption);
+  defaultValues.documentType=selectedOption;
+  setValue('documentType',selectedOption);
+  //defaultValues.documentType={ value: 'vanilla', label: 'Vanilla' };
+ }
+ const onHandleChange1=selectedOption=>{
+  console.log(selectedOption);
+  defaultValues.documentType=selectedOption;
+  setValue('documentType1',selectedOption);
+  //defaultValues.documentType={ value: 'vanilla', label: 'Vanilla' };
+ }
+ const onHandleChange2=selectedOption=>{
+  console.log(selectedOption);
+  defaultValues.documentType=selectedOption;
+  setValue('documentType2',selectedOption);
+  //defaultValues.documentType={ value: 'vanilla', label: 'Vanilla' };
+ }
 /*   const onSubmit = data => console.log(data);
   console.log(errors.documentNumber); 
   
@@ -91,19 +130,59 @@ export const RegisterPage = () => {
                   name='documentType'
                   control={control}
                   render={({ field }) => (
-                    <Input 
-                      type='select' 
-                      {...field}
-                      invalid={errors.documentType && true}
-                    >
-                      <option key="0" value="" >Selecciona ...</option>)
-                        {
-                          documentType.map( (document) => <option key={document.id} value={document.id}>{document.name}</option>)
-                        }
-                    </Input>
+                    <Select
+                        className='react-select'
+                        classNamePrefix='select'               
+                        options={options}
+                        invalid={errors.documentType && true} 
+                        {...field}     
+                        onChange={onHandleChange}
+                    />                    
                   )}
                 />
-                {errors.documentType && 'Debes seleccionar un tipo de documento'}
+                {errors && errors.documentType && <FormFeedback> Ingresa un nombre de colegio válido </FormFeedback>  }
+              </div>
+              <div className='mb-1'>
+                <Label className='form-label' for='select-basic'>
+                  Tipo de documento
+                </Label>
+                <Controller
+                  id='documentType1'
+                  name='documentType1'
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                        className='react-select'
+                        classNamePrefix='select'               
+                        options={options1}
+                        invalid={errors.documentType1 && true} 
+                        {...field}     
+                        onChange={onHandleChange1}
+                    />                    
+                  )}
+                />
+                {errors && errors.documentType1 && <FormFeedback> Ingresa un nombre de colegio válido </FormFeedback>  }
+              </div>
+              <div className='mb-1'>
+                <Label className='form-label' for='select-basic'>
+                  Tipo de documento
+                </Label>
+                <Controller
+                  id='documentType2'
+                  name='documentType2'
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                        className='react-select'
+                        classNamePrefix='select'               
+                        options={options2}
+                        invalid={errors.documentType2 && true} 
+                        {...field}     
+                        onChange={onHandleChange2}
+                    />                    
+                  )}
+                />
+                {errors && errors.documentType2 && <FormFeedback> Ingresa un nombre de colegio válido </FormFeedback>  }
               </div>
               <div className='mb-1'>
                 <Label className='form-label' for='login-email'>

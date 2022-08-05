@@ -3,32 +3,47 @@ import { useForm, Controller } from 'react-hook-form';
 import InputPasswordToggle from '../../@core/components/input-password-toggle';
 import { loginBM } from '../../store/auth';
 import { useDispatch, useSelector } from "react-redux";
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import '../style.css';
 import { Facebook, Twitter, Mail, GitHub } from 'react-feather'
 import { ModalRecoveryPassword } from './account/ModalRecoveryPassword';
 
 
-const defaultValuesRp = {
-  password: 'mauro',
-  loginEmail: 'prueba1@correo.com'
-}
 
 
 export const LoginPage = () => {
+  
+  
 
- 
+  const defaultValuesRp = {
+    password: '',
+    loginEmail: '',
+    _token:localStorage.getItem('csrftoken')
+  }
+
+  const [tokenState, setTokenState] = useState();
+
   const [disabledAnimation, setDisabledAnimation] = useState(false);
 
   const toggle = () => setDisabledAnimation(!disabledAnimation);
 
-  const { status, error:loginErrorMsg } = useSelector(state=>state.auth);
+  
+  const user =  useSelector(state=>state.auth);
+
+  const { status, error:loginErrorMsg, accessToken, uuid } = user;
+
+  const { token } = useSelector(state=>state.csrftoken);
+
+
 
   const dispatch = useDispatch()
 
-  const nodeRef = useRef(null);
+  const nodeRef = useRef(null)
+
+
 
   const {
+    setValue,
     control:controlii,
     setError:setErrorii,
     handleSubmit:handleSubmitii,
@@ -36,12 +51,17 @@ export const LoginPage = () => {
   } = useForm({ defaultValues:defaultValuesRp });
 
 
+  
 
   const loginError = useMemo( ()=>{ return status==='error-in-authentication'},[status] );
-
+  const tokenAuth = useMemo( ()=>{ if(token!=='notoken'){ return token}else{ return 'notoken'}},[token] );
   const onSubmitLogin = data => {
     if (Object.values(data).every(field => field.length > 0)) {
       dispatch(loginBM(data));
+      console.log(user);
+      if(uuid!==null){
+        window.location.replace(`http://localhost:3001/?useruuid=f7e0b9d2-67c1-496e-8900-f5b378606fc4&accestoken=8352b15c-d366-481d-8720-310ba0069c32&schooluuid=8352b15c-d366-481d-8720-310ba0069c32`)
+      }
     } else {
       for (const key in data) {
         if (data[key].length === 0) {
@@ -52,9 +72,6 @@ export const LoginPage = () => {
       }
     }
   }
-
-  
-
   return (
   <>
     
@@ -115,7 +132,18 @@ export const LoginPage = () => {
                 {errorsii.password && 'Password no válido'}
                 {loginError && loginErrorMsg}
               </div>
-              
+              <Controller
+                  id='_token'
+                  name='_token'
+                  control={controlii}
+                  render={({ field }) => (
+                    <Input
+                      value={tokenAuth}
+                      type='hidden'
+                      {...field}
+                    />
+                  )}
+                />
               <Button 
                 type='submit' 
                 color='primary' 

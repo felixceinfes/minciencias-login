@@ -50,6 +50,7 @@ export const ModalRecoveryPassword = ({disabledAnimation,setDisabledAnimation}) 
       <ToastContainer />
     <Modal
       isOpen={disabledAnimation}
+      toggle={toggle}
       className='modal-dialog-centered'
       fade={false}
       

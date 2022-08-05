@@ -16,9 +16,10 @@ export const authSlice = createSlice({
             state.status="checking";
         },
         login:(state,{payload})=>{
+
             state.status='authenticated';
             state.iduser=payload.user.id_user;
-            state.uuid=payload.user.user_uuid;
+            state.uuid=payload.user_uuid;
             state.email=payload.user.email;  
             state.name=payload.user.email;    
             state.accessToken=payload.token;
