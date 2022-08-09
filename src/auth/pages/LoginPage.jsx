@@ -30,7 +30,7 @@ export const LoginPage = () => {
   
   const user =  useSelector(state=>state.auth);
 
-  const { status, error:loginErrorMsg, accessToken, uuid } = user;
+  const { status, error:loginErrorMsg, accessToken, uuid, email } = user;
 
   const { token } = useSelector(state=>state.csrftoken);
 
@@ -51,14 +51,16 @@ export const LoginPage = () => {
   } = useForm({ defaultValues:defaultValuesRp });
 
 
+  
+
   const loginError = useMemo( ()=>{ return status==='error-in-authentication'},[status] );
   const tokenAuth = useMemo( ()=>{ if(token!=='notoken'){ return token}else{ return 'notoken'}},[token] );
   const onSubmitLogin = data => {
     if (Object.values(data).every(field => field.length > 0)) {
-      
-      console.log(user);
+      dispatch(loginBM(data))
+      console.log(accessToken);
       if(uuid!==null){
-        window.location.replace(`http://3.21.167.99/minciencias-admin/?useruuid=f7e0b9d2-67c1-496e-8900-f5b378606fc4&accestoken=8352b15c-d366-481d-8720-310ba0069c32&schooluuid=8352b15c-d366-481d-8720-310ba0069c32`)
+        window.location.replace(`http://3.21.167.99/minciencias-admin/?useruuid=${uuid}&accestoken=${accessToken}&email=${email}`)
       }
     } else {
       for (const key in data) {
