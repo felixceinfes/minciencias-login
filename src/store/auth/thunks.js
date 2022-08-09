@@ -38,7 +38,7 @@ export const checkLogedIn=()=>{
 
 export const loginBM=({loginEmail,password,_token})=>{
     return async(dispatch)=>{        
-        dispatch(checkauthentication());
+        await dispatch(checkauthentication());
         try {
            
              
@@ -52,12 +52,12 @@ export const loginBM=({loginEmail,password,_token})=>{
               };
               //const { status, msg, user, token } =  await axios(options).data;
               const response =  await axios(options);
-              const { status, msg, user, user_uuid, token } = response.data;
+              const { status, msg, user, user_uuid, token } = await response.data;
             if(status==="success"){
                 localStorage.setItem('session_token', token);
-                dispatch(login({ user, msg, token, user_uuid }));
+                await dispatch(login({ user, msg, token, user_uuid }));
             }else{
-                dispatch(logout(msg));
+                await dispatch(logout(msg));
             }
         } catch (error) {
             let msgError = "Error de aplicación"; 
