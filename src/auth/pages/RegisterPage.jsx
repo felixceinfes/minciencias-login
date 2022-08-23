@@ -51,7 +51,6 @@ export const RegisterPage = () => {
     formState: { errors }
   } = useForm({ defaultValues });
 
-  const [documentType,setDocumentType] = useState([]);
 
   const dispatch = useDispatch();
 

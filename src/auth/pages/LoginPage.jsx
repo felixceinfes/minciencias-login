@@ -59,8 +59,9 @@ export const LoginPage = () => {
     if (Object.values(data).every(field => field.length > 0)) {
       dispatch(loginBM(data))
       console.log(accessToken);
+      
       if(uuid!==null){
-        window.location.replace(`http://3.21.167.99/minciencias-admin/?useruuid=${uuid}&accestoken=${accessToken}&email=${email}`)
+        window.location.replace(`http://3.21.167.99/enlazaateacher/?useruuid=${uuid}&accestoken=${accessToken}&email=${email}`)
       }
     } else {
       for (const key in data) {
