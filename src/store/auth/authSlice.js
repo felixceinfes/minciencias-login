@@ -9,7 +9,8 @@ export const authSlice = createSlice({
         email:null,
         name:null,
         accessToken:null,
-        error:null       
+        error:null,
+        rolename:null       
     },
     reducers: {
         checkauthentication: (state) => {
@@ -24,6 +25,7 @@ export const authSlice = createSlice({
             state.name=payload.user.email;    
             state.accessToken=payload.token;
             state.error=payload.msg || null;
+            state.rolename = payload.user.rolename;
 
         },
         logout:(state)=>{
@@ -34,6 +36,7 @@ export const authSlice = createSlice({
             state.name=null;  
             state.accessToken=null;
             state.error=null;
+            state.rolename = null;
         },
         errorinlogin:(state,{ payload })=>{
             state.status='error-in-authentication';
@@ -43,6 +46,7 @@ export const authSlice = createSlice({
             state.name=null;  
             state.accessToken=null;
             state.error=payload;
+            state.rolename = null;
         },
     },
 })

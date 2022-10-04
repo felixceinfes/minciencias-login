@@ -8,13 +8,8 @@ import '../style.css';
 import { Facebook, Twitter, Mail, GitHub } from 'react-feather'
 import { ModalRecoveryPassword } from './account/ModalRecoveryPassword';
 
-
-
-
 export const LoginPage = () => {
   
-  
-
   const defaultValuesRp = {
     password: '',
     loginEmail: '',
@@ -27,21 +22,15 @@ export const LoginPage = () => {
 
   const toggle = () => setDisabledAnimation(!disabledAnimation);
 
-  
   const user =  useSelector(state=>state.auth);
 
-  const { status, error:loginErrorMsg, accessToken, uuid, email } = user;
+  const { status, error:loginErrorMsg, accessToken, uuid, email, rolename } = user;
 
   const { token } = useSelector(state=>state.csrftoken);
-
-
 
   const dispatch = useDispatch()
 
   const nodeRef = useRef(null)
-
-
-
   const {
     setValue,
     control:controlii,
@@ -50,19 +39,28 @@ export const LoginPage = () => {
     formState: { errors:errorsii }
   } = useForm({ defaultValues:defaultValuesRp });
 
-
-  
-
   const loginError = useMemo( ()=>{ return status==='error-in-authentication'},[status] );
   const tokenAuth = useMemo( ()=>{ if(token!=='notoken'){ return token}else{ return 'notoken'}},[token] );
-  const onSubmitLogin = data => {
+  const uuidAuth = useMemo( ()=>{ if(uuid!=='notoken'){ return uuid}else{ return 'notoken'}},[uuid] );
+  const roleAuth = useMemo( ()=>{ if(rolename!=='notoken'){ return rolename}else{ return 'notoken'}},[rolename] );
+  const onSubmitLogin = async (data) => {
     if (Object.values(data).every(field => field.length > 0)) {
-      dispatch(loginBM(data))
-      console.log(accessToken);
-      
-      if(uuid!==null){
-        window.location.replace(`http://3.21.167.99/enlazaateacher/?useruuid=${uuid}&accestoken=${accessToken}&email=${email}`)
-      }
+      const ds = await dispatch(await loginBM(data))
+      console.log(ds);      
+      console.log(roleAuth,uuidAuth);
+      if(ds && ds.user_uuid !== null){
+          if(ds.user.rolename === 'teacher'){
+            console.log("redirect teacher")
+            window.location.replace(`http://192.168.5.104:3002/enlazaateacher/?useruuid=${ds.user_uuid}&accestoken=${ds.token}&email=${ds.user.email}`)
+          }
+          if(ds.user.rolename === 'student'){
+            console.log("redirect estudiante")
+            window.location.replace(`http://192.168.5.104:3000`)
+          }
+          if(ds.user.rolename === 'administrador'){
+            window.location.replace(`http://localhost:3000/enlazaateacher/?useruuid=${uuid}&accestoken=${accessToken}&email=${email}`)
+          }
+        }
     } else {
       for (const key in data) {
         if (data[key].length === 0) {

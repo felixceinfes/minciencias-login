@@ -5,4 +5,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   base:'/minciencias-login/',
   plugins: [react()],
+  server:{
+    port: 3001,
+    host: true
+  }
 })

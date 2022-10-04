@@ -4,9 +4,6 @@ import { checkauthentication, login, logout, errorinlogin } from './';
 
 
 export const checkLogedIn=()=>{
-
-    
-
     return async(dispatch)=>{ 
         if(localStorage.getItem('session_token')===null){
             dispatch(logout(""));
@@ -18,10 +15,10 @@ export const checkLogedIn=()=>{
                 headers: {
                 'Authorization': `Bearer ${localStorage.getItem('session_token')}`
                 } } );
-            const { user,msg, user_uuid }=res.data
+            const { user,msg, user_uuid }=await res.data
             if(res.status===200 && res.data.status==="success"){
                 const token = localStorage.getItem('session_token');
-                dispatch(login({ user, msg, token, user_uuid }));
+                await dispatch(login({ user, msg, token, user_uuid }));
                 return true;
             }
             dispatch(logout(msg));
@@ -36,12 +33,10 @@ export const checkLogedIn=()=>{
 }
 
 
-export const loginBM=({loginEmail,password,_token})=>{
+export const loginBM=async ({loginEmail,password,_token})=>{
     return async(dispatch)=>{        
         await dispatch(checkauthentication());
         try {
-           
-             
               const options = {
                 method: 'POST',
                 //headers: { 'content-type': 'application/x-www-form-urlencoded' },
@@ -55,9 +50,11 @@ export const loginBM=({loginEmail,password,_token})=>{
               const { status, msg, user, user_uuid, token } = await response.data;
             if(status==="success"){
                 localStorage.setItem('session_token', token);
-                await dispatch(login({ user, msg, token, user_uuid }));
+                await dispatch(await login({ user, msg, token, user_uuid }));
+                return  {user,user_uuid, token}
             }else{
                 await dispatch(logout(msg));
+                return null
             }
         } catch (error) {
             let msgError = "Error de aplicación"; 

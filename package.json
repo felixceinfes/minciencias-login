@@ -1,7 +1,7 @@
 {
   "name": "journal-app",
   "private": true,
-  "homepage": "/minciencias-login/",
+  "homepage": "http://login.localhost",
   "version": "0.0.0",
   "engines": {
     "node": "^16.15.1"
