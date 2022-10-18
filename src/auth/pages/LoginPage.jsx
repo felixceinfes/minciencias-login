@@ -51,14 +51,14 @@ export const LoginPage = () => {
       if(ds && ds.user_uuid !== null){
           if(ds.user.rolename === 'teacher'){
             console.log("redirect teacher")
-            window.location.replace(`http://192.168.5.104:3002/enlazaateacher/?useruuid=${ds.user_uuid}&accestoken=${ds.token}&email=${ds.user.email}`)
+            window.location.replace(`${import.meta.env.VITE_URL_DASHBOARDDOCENTE}?useruuid=${ds.user_uuid}&accestoken=${ds.token}&email=${ds.user.email}`)
           }
           if(ds.user.rolename === 'student'){
             console.log("redirect estudiante")
-            window.location.replace(`http://192.168.5.104:3000`)
+            window.location.replace(`${import.meta.env.VITE_URL_DASHBOARDESTUDIANTE}?useruuid=${ds.user_uuid}&accestoken=${ds.token}&email=${ds.user.email}`)
           }
           if(ds.user.rolename === 'administrador'){
-            window.location.replace(`http://localhost:3000/enlazaateacher/?useruuid=${uuid}&accestoken=${accessToken}&email=${email}`)
+            window.location.replace(`${import.meta.env.VITE_URL_DASHBOARDADMINISTRADOR}?useruuid=${uuid}&accestoken=${accessToken}&email=${email}`)
           }
         }
     } else {
