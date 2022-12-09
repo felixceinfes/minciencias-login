@@ -58,8 +58,8 @@ export const LoginPage = () => {
             console.log("redirect estudiante")
             window.location.replace(`${import.meta.env.VITE_URL_DASHBOARDESTUDIANTE}?useruuid=${ds.user_uuid}&accestoken=${ds.token}&email=${ds.user.email}`)
           }
-          if(ds.user.rolename === 'administrador'){
-            window.location.replace(`${import.meta.env.VITE_URL_DASHBOARDADMINISTRADOR}?useruuid=${uuid}&accestoken=${accessToken}&email=${email}`)
+          if(ds.user.rolename === 'executive'){
+            window.location.replace(`${import.meta.env.VITE_URL_DASHBOARDADDIRECTIVO}?useruuid=${ds.user_uuid}&accestoken=${ds.token}&email=${ds.user.email}`)
           }
         }
     } else {
