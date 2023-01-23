@@ -47,8 +47,6 @@ export const LoginPage = () => {
     if (Object.values(data).every(field => field.length > 0)) {
       const ds = await dispatch(await loginBM(data))
       
-      console.log(ds);      
-      console.log(roleAuth,uuidAuth);
       if(ds && ds.user_uuid !== null){
           if(ds.user.rolename === 'teacher'){
             console.log("redirect teacher")
